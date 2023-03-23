@@ -1,5 +1,5 @@
 ---
-'@workers-utils/bungie-api': patch
+'@workers-utils/bungie': patch
 '@workers-utils/common': patch
 ---
 
