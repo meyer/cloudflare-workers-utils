@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "packages/bungie-api"
+    },
+    {
+      "path": "packages/common"
+    }
+  ]
+}

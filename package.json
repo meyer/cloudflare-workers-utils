@@ -1,0 +1,28 @@
+{
+  "name": "cloudflare-workers-utils",
+  "version": "0.0.0",
+  "description": "Utilities for use with Cloudflare workers",
+  "author": "meyer",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.26.1",
+    "@manypkg/cli": "^0.20.0",
+    "@manypkg/get-packages": "^2.1.0"
+  },
+  "scripts": {
+    "build": "npm run clean && tsc -b",
+    "clean": "npm run -ws clean",
+    "update-tsconfigs": "node ./scripts/updateTsconfigs.mjs",
+    "release": "changeset publish",
+    "release:canary": "changeset publish --tag canary",
+    "version:canary": "changeset version --snapshot canary"
+  }
+}

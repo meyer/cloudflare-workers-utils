@@ -1,0 +1,30 @@
+{
+  "include": [],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "lib": [
+      "ES2017",
+      "ESNext",
+      "ESNext.Promise"
+    ],
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "strict": true,
+    "sourceMap": true,
+    "types": [
+      "@cloudflare/workers-types"
+    ],
+    "paths": {
+      "@workers-utils/bungie-api": [
+        "packages/bungie-api"
+      ],
+      "@workers-utils/common": [
+        "packages/common"
+      ]
+    }
+  }
+}
