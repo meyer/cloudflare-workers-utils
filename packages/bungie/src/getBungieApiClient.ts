@@ -1,13 +1,12 @@
+import { getThingFromObjectOrThrow, invariant, isNotNullish, PublicMessageError } from '@workers-utils/common';
 import * as D2Core from 'bungie-api-ts/core';
 import * as D2 from 'bungie-api-ts/destiny2';
 import { PlatformErrorCodes } from 'bungie-api-ts/destiny2';
 import * as D2GroupV2 from 'bungie-api-ts/groupv2';
 import * as D2User from 'bungie-api-ts/user';
 
-import { validateBungieName } from './validateBungieName.js';
-import { invariant, isNotNullish, PublicMessageError } from '@workers-utils/common';
 import { bitwiseSplit } from './bitwiseSplit.js';
-import { getThingFromObjectOrThrow, getThingOrThrow } from 'packages/common/src/invariant.js';
+import { validateBungieName } from './validateBungieName.js';
 
 const getVendorItemStatus = bitwiseSplit({
   [D2.VendorItemStatus.AlreadyOwned]: 'alreadyOwned',
@@ -76,7 +75,7 @@ export const enum VendorHash {
   gunsmith = 672118013,
 }
 
-export interface BungieGetVendorParams extends Omit<D2.GetVendorParams, 'vendorHash' | 'components'> {
+export interface BungieGetVendorParams extends Omit<D2.GetVendorParams, 'components' | 'vendorHash'> {
   vendorHash: VendorHash;
 }
 
