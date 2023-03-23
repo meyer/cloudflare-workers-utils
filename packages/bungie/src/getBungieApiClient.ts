@@ -59,7 +59,7 @@ const formatCollectibles = (collectibles: Record<number, D2.DestinyCollectibleCo
   }));
 };
 
-export const enum CollectiblePresentationNodeHash {
+export enum CollectiblePresentationNodeHash {
   ArmorMods = 615947643,
   WeaponMods = 1627803277,
   CombatStyleArmorMods = 123185593,
@@ -70,7 +70,7 @@ interface BungieGetCollectibleNodeDetailsParams
   collectiblePresentationNodeHash: CollectiblePresentationNodeHash;
 }
 
-export const enum VendorHash {
+export enum VendorHash {
   ada1 = 350061650,
   gunsmith = 672118013,
 }
