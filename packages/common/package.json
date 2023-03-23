@@ -4,6 +4,9 @@
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "format-util": "^1.0.5"
   },

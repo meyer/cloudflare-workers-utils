@@ -31,5 +31,3 @@ export const bitwiseSplit = <T extends string>(hashObject: Record<number, T>) =>
       }, {}) as any;
   };
 };
-
-bitwiseSplit({ [123]: 'wow' });

@@ -97,7 +97,7 @@ export const getNiceMessageFromBungieError = (error: BungieApiError) => {
   }
 };
 
-export type MeowBotBungieAPIClient = ReturnType<typeof getBungieApiClient>;
+export type BungieApiClient = ReturnType<typeof getBungieApiClient>;
 
 interface BungieApiClientOptions {
   apiKey: string;
