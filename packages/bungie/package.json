@@ -1,5 +1,5 @@
 {
-  "name": "@workers-utils/bungie-api",
+  "name": "@workers-utils/bungie",
   "version": "0.0.0-alpha.0",
   "type": "module",
   "module": "dist/index.js",

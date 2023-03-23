@@ -2,10 +2,13 @@
   "files": [],
   "references": [
     {
-      "path": "packages/bungie-api"
+      "path": "packages/bungie"
     },
     {
       "path": "packages/common"
+    },
+    {
+      "path": "packages/discord"
     }
   ]
 }

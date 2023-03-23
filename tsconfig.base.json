@@ -19,11 +19,14 @@
       "@cloudflare/workers-types"
     ],
     "paths": {
-      "@workers-utils/bungie-api": [
-        "packages/bungie-api"
+      "@workers-utils/bungie": [
+        "packages/bungie"
       ],
       "@workers-utils/common": [
         "packages/common"
+      ],
+      "@workers-utils/discord": [
+        "packages/discord"
       ]
     }
   }
