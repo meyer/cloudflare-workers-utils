@@ -104,12 +104,14 @@ interface BungieApiClientOptions {
   apiOrigin: string;
   /** A KV store containing stringified definition objects from the Destiny manifest, with keys in the following format: `${tableName}/${hash}`. */
   definitions: KVNamespace;
+  accessToken?: string;
 }
 
-export const getBungieApiClient = (options: BungieApiClientOptions, accessToken?: string) => {
+export const getBungieApiClient = (options: BungieApiClientOptions) => {
   const apiKey = getThingFromObjectOrThrow(options, 'apiKey');
   const apiOrigin = getThingFromObjectOrThrow(options, 'apiOrigin');
   const definitions = getThingFromObjectOrThrow(options, 'definitions');
+  const { accessToken } = options;
 
   const bungieHttpClient: D2.HttpClient = async (config) => {
     const headers: Record<string, string> = {
@@ -141,9 +143,13 @@ export const getBungieApiClient = (options: BungieApiClientOptions, accessToken?
       typeof jsonResponse === 'object' &&
       'ErrorCode' in jsonResponse &&
       'ErrorStatus' in jsonResponse &&
-      jsonResponse.ErrorCode === D2.PlatformErrorCodes.SystemDisabled
+      jsonResponse.ErrorCode !== D2.PlatformErrorCodes.Success
     ) {
       throw new BungieApiError(jsonResponse.ErrorCode, jsonResponse.ErrorStatus, jsonResponse);
+    }
+
+    if (result.status < 200 || result.status > 299) {
+      throw new Error(result.status + ' ' + result.statusText + ': ' + JSON.stringify(jsonResponse));
     }
 
     return jsonResponse;
