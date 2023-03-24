@@ -199,6 +199,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
         D2.DestinyComponentType.ItemPlugStates,
         D2.DestinyComponentType.ItemSockets,
         D2.DestinyComponentType.ItemPerks,
+        D2.DestinyComponentType.ItemStats,
       ],
       destinyMembershipId,
       membershipType,
