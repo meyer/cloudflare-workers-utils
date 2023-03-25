@@ -1,11 +1,12 @@
 import { getThingFromObjectOrThrow, invariant, isNotNullish, PublicMessageError } from '@workers-utils/common';
 import * as D2Core from 'bungie-api-ts/core';
 import * as D2 from 'bungie-api-ts/destiny2';
-import { PlatformErrorCodes } from 'bungie-api-ts/destiny2';
 import * as D2GroupV2 from 'bungie-api-ts/groupv2';
 import * as D2User from 'bungie-api-ts/user';
 
 import { bitwiseSplit } from './bitwiseSplit.js';
+import type { BungieHttpClientOptions } from './getBungieHttpClient.js';
+import { getBungieHttpClient } from './getBungieHttpClient.js';
 import { validateBungieName } from './validateBungieName.js';
 
 const getVendorItemStatus = bitwiseSplit({
@@ -79,81 +80,16 @@ export interface BungieGetVendorParams extends Omit<D2.GetVendorParams, 'compone
   vendorHash: VendorHash;
 }
 
-export class BungieApiError extends Error {
-  constructor(
-    public errorCode: D2.PlatformErrorCodes,
-    public errorStatus: string,
-    public apiResponse: D2.ServerResponse<unknown>
-  ) {
-    super(errorCode + ': ' + errorStatus);
-  }
-}
-
-export const getNiceMessageFromBungieError = (error: BungieApiError) => {
-  if (error.errorCode === PlatformErrorCodes.SystemDisabled) {
-    return 'The Bungie API is currently disabled.';
-  } else {
-    return `${error.errorCode} ${error.errorStatus}`;
-  }
-};
-
 export type BungieApiClient = ReturnType<typeof getBungieApiClient>;
 
-interface BungieApiClientOptions {
-  apiKey: string;
-  apiOrigin: string;
+interface BungieApiClientOptions extends BungieHttpClientOptions {
   /** A KV store containing stringified definition objects from the Destiny manifest, with keys in the following format: `${tableName}/${hash}`. */
   definitions: KVNamespace;
-  accessToken?: string;
 }
 
 export const getBungieApiClient = (options: BungieApiClientOptions) => {
-  const apiKey = getThingFromObjectOrThrow(options, 'apiKey');
-  const apiOrigin = getThingFromObjectOrThrow(options, 'apiOrigin');
   const definitions = getThingFromObjectOrThrow(options, 'definitions');
-  const { accessToken } = options;
-
-  const bungieHttpClient: D2.HttpClient = async (config) => {
-    const headers: Record<string, string> = {
-      'X-API-Key': apiKey,
-      Origin: apiOrigin,
-    };
-    if (accessToken) {
-      headers.Authorization = `Bearer ${accessToken}`;
-    }
-
-    const url = new URL(config.url);
-    if (config.params) {
-      for (const key in config.params) {
-        url.searchParams.set(key, config.params[key]);
-      }
-    }
-
-    console.log(config.method, url.toString());
-
-    const result = await fetch(url.toString(), {
-      method: config.method,
-      headers,
-      body: config.body ? JSON.stringify(config.body) : undefined,
-    });
-
-    const jsonResponse = (await result.json()) as D2.ServerResponse<unknown>;
-
-    if (
-      typeof jsonResponse === 'object' &&
-      'ErrorCode' in jsonResponse &&
-      'ErrorStatus' in jsonResponse &&
-      jsonResponse.ErrorCode !== D2.PlatformErrorCodes.Success
-    ) {
-      throw new BungieApiError(jsonResponse.ErrorCode, jsonResponse.ErrorStatus, jsonResponse);
-    }
-
-    if (result.status < 200 || result.status > 299) {
-      throw new Error(result.status + ' ' + result.statusText + ': ' + JSON.stringify(jsonResponse));
-    }
-
-    return jsonResponse;
-  };
+  const bungieHttpClient = getBungieHttpClient(options);
 
   const getBungieNetUserById = async (id: string) => {
     return await D2User.getBungieNetUserById(bungieHttpClient, { id });
