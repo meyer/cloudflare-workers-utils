@@ -86,6 +86,10 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
     DAPI.RESTPatchAPIInteractionOriginalResponseResult
   >('PATCH')(Routes.webhookMessage.bind(null, options.applicationId));
 
+  const getWebhookMessage = buildHandler<void, DAPI.RESTGetAPIInteractionOriginalResponseResult>('GET')(
+    Routes.webhookMessage.bind(null, options.applicationId)
+  );
+
   const postFollowupWebhookMessage = buildHandler<
     DAPI.RESTPostAPIWebhookWithTokenJSONBody,
     DAPI.RESTPostAPIWebhookWithTokenResult
@@ -158,6 +162,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
     getGuildMembers,
     getGuilds,
     getUser,
+    getWebhookMessage,
     patchChannel,
     patchChannelMessage,
     patchGuildMember,
