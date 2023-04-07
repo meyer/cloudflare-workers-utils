@@ -58,7 +58,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
         }
       }
 
-      const response = await fetch(`${apiPrefix}${route}`, init);
+      const response = await fetch(url.toString(), init);
       const responseText = await response.text();
       if (response.status < 200 || response.status > 299) {
         throw new DiscordResponseError(response, responseText);
