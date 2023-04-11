@@ -21,7 +21,7 @@ type MakeArgTupleForObject<T> = T extends void
   : [arg: T];
 
 export class DiscordResponseError extends Error {
-  constructor(public response: Response, responseText: string) {
+  constructor(public response: Response, public responseText: string) {
     super(response.status + ' ' + response.statusText + ': ' + responseText);
   }
 }
