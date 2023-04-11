@@ -2,7 +2,9 @@ import { StatusCodes } from 'http-status-codes';
 
 export class JsonResponse extends Response {
   constructor(data: unknown, init?: ResponseInit) {
-    super(JSON.stringify(data), init);
+    const headers = new Headers(init?.headers);
+    headers.set('Content-Type', 'application/json;charset=UTF-8');
+    super(JSON.stringify(data), { ...init, headers });
   }
 }
 
