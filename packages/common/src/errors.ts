@@ -1,3 +1,4 @@
+import format from 'format-util';
 import type { StatusCodes } from 'http-status-codes';
 
 export class RedirectError extends Error {
@@ -15,5 +16,12 @@ export class HttpError extends Error {
 export class LoginRequiredError extends Error {
   constructor() {
     super('You need to be logged in to view this page.');
+  }
+}
+
+/** Throw this error for messages that can be safely displayed in the UI */
+export class PublicMessageError extends Error {
+  constructor(message: string, ...args: any[]) {
+    super(format(message, ...args));
   }
 }
