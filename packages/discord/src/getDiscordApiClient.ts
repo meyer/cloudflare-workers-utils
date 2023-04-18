@@ -151,6 +151,15 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
     'PATCH'
   )(Routes.guildMember);
 
+  const getRoleConnectionMetadata = buildHandler<void, DAPI.RESTGetAPIApplicationRoleConnectionMetadataResult>('GET')(
+    Routes.applicationRoleConnectionMetadata.bind(null, options.applicationId)
+  );
+
+  const putRoleConnectionMetadata = buildHandler<
+    DAPI.RESTPutAPIApplicationRoleConnectionMetadataJSONBody,
+    DAPI.RESTPutAPIApplicationRoleConnectionMetadataResult
+  >('PUT')(Routes.applicationRoleConnectionMetadata.bind(null, options.applicationId));
+
   return {
     deleteChannel,
     deleteChannelMessage,
@@ -162,6 +171,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
     getGuildMembers,
     getGuilds,
     getUser,
+    getRoleConnectionMetadata,
     getWebhookMessage,
     patchChannel,
     patchChannelMessage,
@@ -172,6 +182,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
     postFollowupWebhookMessage,
     postThreadWithMessage,
     putGuildCommands,
+    putRoleConnectionMetadata,
     putThreadMembers,
   };
 };
