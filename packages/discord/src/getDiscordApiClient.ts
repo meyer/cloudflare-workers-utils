@@ -101,16 +101,16 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
   const patchWebhookMessage = buildHandler<
     DAPI.RESTPatchAPIInteractionOriginalResponseJSONBody,
     DAPI.RESTPatchAPIInteractionOriginalResponseResult
-  >('PATCH')(Routes.webhookMessage.bind(null, options.applicationId));
+  >('PATCH')(Routes.webhookMessage);
 
   const getWebhookMessage = buildHandler<void, DAPI.RESTGetAPIInteractionOriginalResponseResult>('GET')(
-    Routes.webhookMessage.bind(null, options.applicationId)
+    Routes.webhookMessage
   );
 
   const postFollowupWebhookMessage = buildHandler<
     DAPI.RESTPostAPIWebhookWithTokenJSONBody,
     DAPI.RESTPostAPIWebhookWithTokenResult
-  >('POST')(Routes.webhook.bind(null, options.applicationId));
+  >('POST')(Routes.webhook);
 
   const patchChannel = buildHandler<DAPI.RESTPatchAPIChannelJSONBody, DAPI.RESTPatchAPIChannelResult>('PATCH')(
     Routes.channel
