@@ -96,7 +96,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
     DAPI.RESTPostAPIWebhookWithTokenJSONBody,
     DAPI.RESTPostAPIWebhookWithTokenResult | DAPI.RESTPostAPIWebhookWithTokenWaitResult,
     DAPI.RESTPostAPIWebhookWithTokenQuery
-  >('POST')(Routes.webhookMessage);
+  >('POST')(Routes.webhook);
 
   const patchWebhookMessage = buildHandler<
     DAPI.RESTPatchAPIInteractionOriginalResponseJSONBody,
