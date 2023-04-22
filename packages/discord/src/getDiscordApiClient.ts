@@ -12,13 +12,13 @@ interface DiscordRestOptions {
 type AnyNonNullishValue = {};
 
 /** Return a tuple containing type `T`. If all values in `T` are nullable, `T` is marked as optional. */
-type MakeArgTupleForObject<T> = T extends void
-  ? []
+type MakeArgTupleForObject<T, Args extends any[] = []> = T extends void
+  ? [arg?: undefined, ...args: Args]
   : {
       [K in keyof T]-?: T[K] extends AnyNonNullishValue ? K : never;
     }[keyof T] extends never
-  ? [arg?: T]
-  : [arg: T];
+  ? [arg?: T, ...args: Args]
+  : [arg: T, ...args: Args];
 
 export class DiscordResponseError extends Error {
   constructor(public response: Response, public responseText: string) {
@@ -35,11 +35,17 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
   const apiPrefix = RouteBases.api;
 
   const buildHandler =
-    <TBody, TReturnType>(method: 'DELETE' | 'GET' | 'PATCH' | 'POST' | 'PUT') =>
+    <TBody, TReturnType, TQueryParams extends Record<string, any> = never>(
+      method: 'DELETE' | 'GET' | 'PATCH' | 'POST' | 'PUT'
+    ) =>
     <TRouteFn extends (...params: any[]) => string>(getRoute: TRouteFn) =>
-    async (params: Parameters<TRouteFn>, ...args: MakeArgTupleForObject<TBody>): Promise<TReturnType> => {
+    async (
+      params: Parameters<TRouteFn>,
+      ...args: MakeArgTupleForObject<TBody, [queryParams?: TQueryParams]>
+    ): Promise<TReturnType> => {
       const route = getRoute(...params);
       const body = args[0];
+      const queryParams = args[1];
 
       const url = new URL(`${apiPrefix}${route}`);
 
@@ -55,6 +61,11 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
           }
         } else {
           init.body = JSON.stringify(body);
+          if (queryParams) {
+            for (const [key, value] of Object.entries(queryParams)) {
+              url.searchParams.set(key, value + '');
+            }
+          }
         }
       }
 
@@ -80,6 +91,12 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
   const deleteChannelMessage = buildHandler<void, DAPI.RESTDeleteAPIChannelMessageResult>('DELETE')(
     Routes.channelMessage
   );
+
+  const postWebhookMessage = buildHandler<
+    DAPI.RESTPostAPIWebhookWithTokenJSONBody,
+    DAPI.RESTPostAPIWebhookWithTokenResult | DAPI.RESTPostAPIWebhookWithTokenWaitResult,
+    DAPI.RESTPostAPIWebhookWithTokenQuery
+  >('POST')(Routes.webhookMessage);
 
   const patchWebhookMessage = buildHandler<
     DAPI.RESTPatchAPIInteractionOriginalResponseJSONBody,
@@ -132,6 +149,12 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
     Routes.guildChannels
   );
 
+  const getChannelWebhooks = buildHandler<void, DAPI.RESTGetAPIChannelWebhooksResult>('GET')(Routes.channelWebhooks);
+  const postChannelWebhooks = buildHandler<
+    DAPI.RESTPostAPIChannelWebhookJSONBody,
+    DAPI.RESTPostAPIChannelWebhookResult
+  >('POST')(Routes.channelWebhooks);
+
   const deleteChannel = buildHandler<void, DAPI.RESTDeleteAPIChannelResult>('DELETE')(Routes.channel);
 
   const putGuildCommands = buildHandler<
@@ -161,11 +184,14 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
   >('PUT')(Routes.applicationRoleConnectionMetadata.bind(null, options.applicationId));
 
   return {
+    applicationId: options.applicationId,
+
     deleteChannel,
     deleteChannelMessage,
     deleteThreadMember,
     getChannel,
     getChannels,
+    getChannelWebhooks,
     getGuild,
     getGuildMember,
     getGuildMembers,
@@ -179,8 +205,10 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
     patchWebhookMessage,
     postChannelMessages,
     postChannels,
+    postChannelWebhooks,
     postFollowupWebhookMessage,
     postThreadWithMessage,
+    postWebhookMessage,
     putGuildCommands,
     putRoleConnectionMetadata,
     putThreadMembers,
