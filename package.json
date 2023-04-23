@@ -28,7 +28,7 @@
     "clean": "npm run -ws clean",
     "update-tsconfigs": "node ./scripts/updateTsconfigs.mjs",
     "release": "changeset publish",
-    "release:canary": "changeset publish --tag canary",
+    "release:canary": "changeset publish --no-git-tag --tag canary",
     "version:canary": "changeset version --snapshot canary"
   }
 }
