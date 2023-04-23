@@ -394,6 +394,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
   };
 
   return {
+    injectAccessToken: bungieHttpClient.injectAccessToken,
     getActivityHistory,
     getBnetProfileForBungieName,
     getBungieNetUserById,

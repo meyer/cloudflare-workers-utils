@@ -1,4 +1,4 @@
-import type { HttpClient, ServerResponse } from 'bungie-api-ts/destiny2';
+import type { HttpClientConfig, ServerResponse } from 'bungie-api-ts/destiny2';
 import { PlatformErrorCodes } from 'bungie-api-ts/destiny2';
 
 export class BungieApiError extends Error {
@@ -25,15 +25,16 @@ export interface BungieHttpClientOptions {
   accessToken?: string;
 }
 
-export const getBungieHttpClient = (options: BungieHttpClientOptions): HttpClient => {
-  const { apiKey, apiOrigin, accessToken } = options;
-  return async (config) => {
+export const getBungieHttpClient = (options: BungieHttpClientOptions) => {
+  const copiedOptions = { ...options };
+
+  const client = async (config: HttpClientConfig): Promise<any> => {
     const headers: Record<string, string> = {
-      'X-API-Key': apiKey,
-      Origin: apiOrigin,
+      'X-API-Key': copiedOptions.apiKey,
+      Origin: copiedOptions.apiOrigin,
     };
-    if (accessToken) {
-      headers.Authorization = `Bearer ${accessToken}`;
+    if (copiedOptions.accessToken) {
+      headers.Authorization = `Bearer ${copiedOptions.accessToken}`;
     }
 
     const url = new URL(config.url);
@@ -68,4 +69,10 @@ export const getBungieHttpClient = (options: BungieHttpClientOptions): HttpClien
 
     return jsonResponse;
   };
+
+  client.injectAccessToken = (accessToken: string) => {
+    copiedOptions.accessToken = accessToken;
+  };
+
+  return client;
 };
