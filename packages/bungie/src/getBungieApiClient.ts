@@ -120,23 +120,24 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
   const getCharacter = async (
     membershipType: D2.BungieMembershipType,
     destinyMembershipId: string,
-    characterId: string
+    characterId: string,
+    components = [
+      // equipped item instances
+      D2.DestinyComponentType.CharacterEquipment,
+      // stored item instances
+      D2.DestinyComponentType.CharacterInventories,
+      // character info
+      D2.DestinyComponentType.Characters,
+      D2.DestinyComponentType.ItemInstances,
+      D2.DestinyComponentType.ItemPlugStates,
+      D2.DestinyComponentType.ItemSockets,
+      D2.DestinyComponentType.ItemPerks,
+      D2.DestinyComponentType.ItemStats,
+    ]
   ) => {
     return D2.getCharacter(bungieHttpClient, {
       characterId,
-      components: [
-        // equipped item instances
-        D2.DestinyComponentType.CharacterEquipment,
-        // stored item instances
-        D2.DestinyComponentType.CharacterInventories,
-        // character info
-        D2.DestinyComponentType.Characters,
-        D2.DestinyComponentType.ItemInstances,
-        D2.DestinyComponentType.ItemPlugStates,
-        D2.DestinyComponentType.ItemSockets,
-        D2.DestinyComponentType.ItemPerks,
-        D2.DestinyComponentType.ItemStats,
-      ],
+      components,
       destinyMembershipId,
       membershipType,
     });
@@ -162,9 +163,13 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
     });
   };
 
-  const getProfile = async (membershipType: D2.BungieMembershipType, destinyMembershipId: string) => {
+  const getProfile = async (
+    membershipType: D2.BungieMembershipType,
+    destinyMembershipId: string,
+    components = [D2.DestinyComponentType.Characters, D2.DestinyComponentType.Profiles]
+  ) => {
     return D2.getProfile(bungieHttpClient, {
-      components: [D2.DestinyComponentType.Characters, D2.DestinyComponentType.Profiles],
+      components,
       destinyMembershipId,
       membershipType,
     });
