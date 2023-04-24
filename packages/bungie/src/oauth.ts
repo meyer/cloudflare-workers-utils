@@ -56,7 +56,17 @@ export const getBungieOauthToken = async (
     method: 'POST',
     redirect: 'follow',
   });
-  return await result.json();
+
+  const responseText = await result.text();
+  if (result.status !== 200) {
+    throw new Error(result.status + ' ' + result.statusText + ': ' + responseText);
+  }
+
+  try {
+    return JSON.parse(responseText);
+  } catch (error) {
+    throw new Error('Could not parse response text to JSON: `' + responseText + '`');
+  }
 };
 
 /**
@@ -83,5 +93,15 @@ export const refreshBungieOauthToken = async (
     method: 'POST',
     redirect: 'follow',
   });
-  return await result.json();
+
+  const responseText = await result.text();
+  if (result.status !== 200) {
+    throw new Error(result.status + ' ' + result.statusText + ': ' + responseText);
+  }
+
+  try {
+    return JSON.parse(responseText);
+  } catch (error) {
+    throw new Error('Could not parse response text to JSON: `' + responseText + '`');
+  }
 };
