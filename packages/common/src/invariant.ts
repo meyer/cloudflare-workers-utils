@@ -1,4 +1,4 @@
-import format from 'format-util';
+import { utilFormat } from './utilFormat.js';
 
 interface Newable {
   new (...args: any[]): any;
@@ -13,7 +13,7 @@ export function invariant(condition: any, message: string, ...args: any[]): asse
 export function invariant(condition: any, message: any, ...args: any[]): asserts condition {
   if (!condition) {
     if (typeof message === 'string') {
-      throw new Error(format(message, ...args));
+      throw new Error(utilFormat(message, ...args));
     } else {
       throw new message(...args);
     }
