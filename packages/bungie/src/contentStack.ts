@@ -46,7 +46,7 @@ const articleSchema = z
 
     const twabMatch = item.title.match(twabRegex);
     if (twabMatch) {
-      const twabTitle = 'TWAB — ' + dateString;
+      const twabTitle = 'This Week in Destiny — ' + dateString;
       return {
         ...articleWithDefaults,
         type: 'twab',
@@ -87,7 +87,7 @@ const articlesSchema = z.object({
   }),
 });
 
-const twabRegex = /^This Week At Bungie\b/i;
+const twabRegex = /^This Week (?:at Bungie|in Destiny)\b/i;
 const hotfixRegex = /^Destiny 2 Hotfix ([\d+.]+)$/i;
 const updateRegex = /^Destiny 2 Update ([\d+.]+)$/i;
 
