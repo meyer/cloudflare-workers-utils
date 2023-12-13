@@ -1,6 +1,6 @@
 {
   "name": "@workers-utils/bungie",
-  "version": "0.0.0-alpha.0",
+  "version": "0.0.0",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -9,7 +9,7 @@
     "dist"
   ],
   "dependencies": {
-    "@workers-utils/common": "^0.0.0-0",
+    "@workers-utils/common": "^0.0.0",
     "bungie-api-ts": "^4.22.2",
     "zod": "^3.21.4"
   },
