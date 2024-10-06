@@ -1,8 +1,8 @@
 // @ts-check
 
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import { getPackages } from '@manypkg/get-packages';
-import { promises as fs } from 'fs';
-import path from 'path';
 
 const { packages, rootPackage } = await getPackages(process.cwd());
 
@@ -11,8 +11,8 @@ if (!rootPackage) throw new Error('No rootPackage');
 const packagePathsByName = Object.fromEntries(
   packages.map(
     /** @returns {[string, string]} */
-    (pkgObject) => [pkgObject.packageJson.name, pkgObject.dir]
-  )
+    (pkgObject) => [pkgObject.packageJson.name, pkgObject.dir],
+  ),
 );
 
 for (const pkgObject of packages) {
@@ -40,7 +40,7 @@ const baseTsconfigContent = JSON.parse(await fs.readFile(baseTsconfigPath, 'utf-
 baseTsconfigContent.compilerOptions.paths = Object.fromEntries(
   packages.map(
     /** @returns {[string, string[]]} */
-    (pkgObject) => [pkgObject.packageJson.name, [pkgObject.relativeDir]]
-  )
+    (pkgObject) => [pkgObject.packageJson.name, [pkgObject.relativeDir]],
+  ),
 );
 await fs.writeFile(baseTsconfigPath, JSON.stringify(baseTsconfigContent, null, 2) + '\n');

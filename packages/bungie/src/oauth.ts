@@ -39,7 +39,7 @@ interface BungieOauthTokenOptions extends BungieOauthUrlOptions {
  */
 export const getBungieOauthToken = async (
   options: BungieOauthTokenOptions,
-  authorizationCode: string
+  authorizationCode: string,
 ): Promise<BungieOauthTokenResponse> => {
   const result = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
     body: new URLSearchParams({
@@ -76,7 +76,7 @@ export const getBungieOauthToken = async (
  */
 export const refreshBungieOauthToken = async (
   options: BungieOauthTokenOptions,
-  oldRefreshToken: string
+  oldRefreshToken: string,
 ): Promise<BungieOauthTokenResponse> => {
   const result = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
     body: new URLSearchParams({

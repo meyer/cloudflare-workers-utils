@@ -2,12 +2,14 @@ import { PublicMessageError } from './errors.js';
 
 export const getPublicMessageFromError = async (
   error: unknown,
-  fallbackMessage = 'Something went wrong'
+  fallbackMessage = 'Something went wrong',
 ): Promise<string> => {
   try {
     if (error instanceof PublicMessageError) {
       return error.message;
-    } else if (error instanceof Response) {
+    }
+
+    if (error instanceof Response) {
       console.error('URL `%s` responded with a non-200 error code: %s %s', error.url, error.status, error.statusText);
       if (!error.bodyUsed) {
         console.error('Response text: %s', await error.text());

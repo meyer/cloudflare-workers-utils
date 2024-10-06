@@ -123,7 +123,7 @@ export const getContentStackSettings = async (settings: CoreSettingsConfiguratio
 const runCsGraphQlQuery = async (
   settings: ContentStackSettings,
   query: string,
-  variables?: Record<string, unknown>
+  variables?: Record<string, unknown>,
 ): Promise<unknown> => {
   const csUrl = 'https://graphql.contentstack.com/stacks/' + settings.csApiKey + '?environment=' + settings.csEnv;
 
@@ -173,7 +173,7 @@ query ($date: String) {
 `,
     {
       date: oneWeekAgo.toISOString(),
-    }
+    },
   ).then((data) => articlesSchema.parse(data));
 
   return articlesResponse.data.articles.items;

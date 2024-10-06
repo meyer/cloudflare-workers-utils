@@ -5,7 +5,7 @@ export class BungieApiError extends Error {
   constructor(
     public errorCode: PlatformErrorCodes,
     public errorStatus: string,
-    public apiResponse: ServerResponse<unknown>
+    public apiResponse: ServerResponse<unknown>,
   ) {
     super(errorCode + ': ' + errorStatus);
   }
@@ -14,9 +14,8 @@ export class BungieApiError extends Error {
 export const getNiceMessageFromBungieError = (error: BungieApiError) => {
   if (error.errorCode === PlatformErrorCodes.SystemDisabled) {
     return 'The Bungie API is currently disabled.';
-  } else {
-    return `${error.errorCode} ${error.errorStatus}`;
   }
+  return `${error.errorCode} ${error.errorStatus}`;
 };
 
 export interface BungieHttpClientOptions {
@@ -39,8 +38,8 @@ export const getBungieHttpClient = (options: BungieHttpClientOptions) => {
 
     const url = new URL(config.url);
     if (config.params) {
-      for (const key in config.params) {
-        url.searchParams.set(key, config.params[key]);
+      for (const [key, value] of Object.entries(config.params)) {
+        url.searchParams.set(key, value);
       }
     }
 

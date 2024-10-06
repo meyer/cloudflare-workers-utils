@@ -3,8 +3,9 @@
 
 export const utilFormat = (fmt: string, ...args: any[]) => {
   const re = /(%?)(%([ojds]))/g;
+  let ret = fmt;
   if (args.length) {
-    fmt = fmt.replace(re, (match, escaped, ptn, flag) => {
+    ret = ret.replace(re, (match, escaped, ptn, flag) => {
       let arg = args.shift();
       switch (flag) {
         case 'o':
@@ -32,11 +33,11 @@ export const utilFormat = (fmt: string, ...args: any[]) => {
 
   // arguments remain after formatting
   if (args.length) {
-    fmt += ' ' + args.join(' ');
+    ret += ' ' + args.join(' ');
   }
 
   // update escaped %% values
-  fmt = fmt.replace(/%{2,2}/g, '%');
+  ret = ret.replace(/%{2,2}/g, '%');
 
   return '' + fmt;
 };

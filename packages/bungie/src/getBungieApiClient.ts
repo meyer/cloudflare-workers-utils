@@ -1,4 +1,4 @@
-import { getThingFromObjectOrThrow, invariant, isNotNullish, PublicMessageError } from '@workers-utils/common';
+import { PublicMessageError, getThingFromObjectOrThrow, invariant, isNotNullish } from '@workers-utils/common';
 import * as D2Core from 'bungie-api-ts/core';
 import * as D2 from 'bungie-api-ts/destiny2';
 import * as D2GroupV2 from 'bungie-api-ts/groupv2';
@@ -102,7 +102,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
   const bungieGetLinkedProfiles = async (
     membershipId: string,
     membershipType: D2.BungieMembershipType,
-    getAllMemberships = false
+    getAllMemberships = false,
   ): Promise<
     D2.ServerResponse<
       Omit<D2.DestinyLinkedProfilesResponse, 'bnetMembership'> & {
@@ -133,7 +133,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
       D2.DestinyComponentType.ItemSockets,
       D2.DestinyComponentType.ItemPerks,
       D2.DestinyComponentType.ItemStats,
-    ]
+    ],
   ) => {
     return D2.getCharacter(bungieHttpClient, {
       characterId,
@@ -166,7 +166,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
   const getProfile = async (
     membershipType: D2.BungieMembershipType,
     destinyMembershipId: string,
-    components = [D2.DestinyComponentType.Characters, D2.DestinyComponentType.Profiles]
+    components = [D2.DestinyComponentType.Characters, D2.DestinyComponentType.Profiles],
   ) => {
     return D2.getProfile(bungieHttpClient, {
       components,
@@ -188,7 +188,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
   /** Get the definition of an item */
   const getDestinyEntityDefinition = async <T extends TableName>(
     tableName: T,
-    hash: number
+    hash: number,
   ): Promise<EntityTypeToResponseTypeMap[T]> => {
     const key = tableName + '/' + hash;
     return (await definitions.get(key, 'json')) as any;
@@ -199,7 +199,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
     components: D2.DestinyComponentType[],
     membershipType: D2.BungieMembershipType,
     destinyMembershipId: string,
-    itemInstanceId: string
+    itemInstanceId: string,
   ) => {
     return D2.getItem(bungieHttpClient, {
       components,
@@ -216,7 +216,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
     hash: CollectiblePresentationNodeHash,
     characterId: string,
     destinyMembershipId: string,
-    membershipType: D2.BungieMembershipType
+    membershipType: D2.BungieMembershipType,
   ) => {
     const details = await D2.getCollectibleNodeDetails(bungieHttpClient, {
       collectiblePresentationNodeHash: hash,
@@ -263,7 +263,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
     return await D2.searchDestinyPlayerByBungieName(
       bungieHttpClient,
       { membershipType: D2.BungieMembershipType.All },
-      searchRequest
+      searchRequest,
     );
   };
 
@@ -272,7 +272,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
   };
 
   const getBnetProfileForBungieName = async (
-    bungieName: string
+    bungieName: string,
   ): Promise<{
     bnetProfile: D2User.UserInfoCard | null;
     allProfiles: D2User.UserInfoCard[];
@@ -302,7 +302,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
     const matchingResult = searchResult.Response.searchResults.find(
       (item) =>
         item.bungieGlobalDisplayName.toLowerCase() === displayName &&
-        item.bungieGlobalDisplayNameCode === displayNameCode
+        item.bungieGlobalDisplayNameCode === displayNameCode,
     );
 
     const firstProfile = matchingResult?.destinyMemberships[0];
@@ -369,11 +369,10 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
           profilesWithErrors.length,
           profilesWithErrors.length === 1 ? ' was' : 's were',
           profilesWithErrors.length === 1 ? '' : 's',
-          profilesWithErrors.map((profile) => '`' + profile.errorCode + '`')
+          profilesWithErrors.map((profile) => '`' + profile.errorCode + '`'),
         );
-      } else {
-        throw new PublicMessageError('No valid Destiny profiles could be found for this user.');
       }
+      throw new PublicMessageError('No valid Destiny profiles could be found for this user.');
     }
 
     return { bnetMembership, profiles, profilesWithErrors };
@@ -388,7 +387,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
   };
 
   const getDestinyManifestComponent = async <T extends D2.DestinyManifestComponentName>(
-    params: D2.GetDestinyManifestComponentParams<T>
+    params: D2.GetDestinyManifestComponentParams<T>,
   ) => {
     return await D2.getDestinyManifestComponent(bungieHttpClient, params);
   };

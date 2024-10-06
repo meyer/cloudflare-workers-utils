@@ -14,9 +14,8 @@ export function invariant(condition: any, message: any, ...args: any[]): asserts
   if (!condition) {
     if (typeof message === 'string') {
       throw new Error(utilFormat(message, ...args));
-    } else {
-      throw new message(...args);
     }
+    throw new message(...args);
   }
 }
 
@@ -27,7 +26,7 @@ export const getThingOrThrow = <T>(thing: T | null | undefined, message: string,
 
 export const getThingFromObjectOrThrow = <T extends Record<string, any>, K extends keyof T>(
   obj: T,
-  key: K
+  key: K,
 ): NonNullable<T[K]> => {
   const value = obj[key];
   invariant(value != null, 'Object does not contain key `%s`', key);

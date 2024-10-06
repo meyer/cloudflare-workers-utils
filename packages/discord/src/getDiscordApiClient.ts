@@ -8,20 +8,23 @@ interface DiscordRestOptions {
   applicationId: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// biome-ignore lint/complexity/noBannedTypes: intentional usage
 type AnyNonNullishValue = {};
 
 /** Return a tuple containing type `T`. If all values in `T` are nullable, `T` is marked as optional. */
 type MakeArgTupleForObject<T, Args extends any[] = []> = T extends void
   ? [arg?: undefined, ...args: Args]
   : {
-      [K in keyof T]-?: T[K] extends AnyNonNullishValue ? K : never;
-    }[keyof T] extends never
-  ? [arg?: T, ...args: Args]
-  : [arg: T, ...args: Args];
+        [K in keyof T]-?: T[K] extends AnyNonNullishValue ? K : never;
+      }[keyof T] extends never
+    ? [arg?: T, ...args: Args]
+    : [arg: T, ...args: Args];
 
 export class DiscordResponseError extends Error {
-  constructor(public response: Response, public responseText: string) {
+  constructor(
+    public response: Response,
+    public responseText: string,
+  ) {
     super(response.status + ' ' + response.statusText + ': ' + responseText);
   }
 }
@@ -36,7 +39,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
 
   const buildHandler =
     <TBody, TReturnType, TQueryParams extends Record<string, any> = never>(
-      method: 'DELETE' | 'GET' | 'PATCH' | 'POST' | 'PUT'
+      method: 'DELETE' | 'GET' | 'PATCH' | 'POST' | 'PUT',
     ) =>
     <TRouteFn extends (...params: any[]) => string>(getRoute: TRouteFn) =>
     async (
@@ -89,7 +92,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
     };
 
   const deleteChannelMessage = buildHandler<void, DAPI.RESTDeleteAPIChannelMessageResult>('DELETE')(
-    Routes.channelMessage
+    Routes.channelMessage,
   );
 
   const postWebhookMessage = buildHandler<
@@ -104,7 +107,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
   >('PATCH')(Routes.webhookMessage);
 
   const getWebhookMessage = buildHandler<void, DAPI.RESTGetAPIInteractionOriginalResponseResult>('GET')(
-    Routes.webhookMessage
+    Routes.webhookMessage,
   );
 
   const postFollowupWebhookMessage = buildHandler<
@@ -113,7 +116,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
   >('POST')(Routes.webhook);
 
   const patchChannel = buildHandler<DAPI.RESTPatchAPIChannelJSONBody, DAPI.RESTPatchAPIChannelResult>('PATCH')(
-    Routes.channel
+    Routes.channel,
   );
 
   const postThreadWithMessage = buildHandler<
@@ -129,7 +132,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
   const putThreadMembers = buildHandler<void, DAPI.RESTPutAPIChannelThreadMembersResult>('PUT')(Routes.threadMembers);
 
   const deleteThreadMember = buildHandler<void, DAPI.RESTDeleteAPIChannelThreadMembersResult>('DELETE')(
-    Routes.threadMembers
+    Routes.threadMembers,
   );
 
   const patchChannelMessage = buildHandler<
@@ -140,13 +143,13 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
   const getGuild = buildHandler<DAPI.RESTGetAPIGuildQuery, DAPI.RESTGetAPIGuildResult>('GET')(Routes.guild);
 
   const getGuilds = buildHandler<DAPI.RESTGetAPICurrentUserGuildsQuery, DAPI.RESTGetAPICurrentUserGuildsResult>('GET')(
-    Routes.userGuilds
+    Routes.userGuilds,
   );
 
   const getChannel = buildHandler<void, DAPI.RESTGetAPIChannelResult>('GET')(Routes.channel);
   const getChannels = buildHandler<void, DAPI.RESTGetAPIGuildChannelsResult>('GET')(Routes.guildChannels);
   const postChannels = buildHandler<DAPI.RESTPostAPIGuildChannelJSONBody, DAPI.RESTPostAPIGuildChannelResult>('POST')(
-    Routes.guildChannels
+    Routes.guildChannels,
   );
 
   const getChannelWebhooks = buildHandler<void, DAPI.RESTGetAPIChannelWebhooksResult>('GET')(Routes.channelWebhooks);
@@ -167,15 +170,15 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
   const getGuildMember = buildHandler<void, DAPI.RESTGetAPIGuildMemberResult>('GET')(Routes.guildMember);
 
   const getGuildMembers = buildHandler<DAPI.RESTGetAPIGuildMembersQuery, DAPI.RESTGetAPIGuildMembersResult>('GET')(
-    Routes.guildMembers
+    Routes.guildMembers,
   );
 
   const patchGuildMember = buildHandler<DAPI.RESTPatchAPIGuildMemberJSONBody, DAPI.RESTPatchAPIGuildMemberResult>(
-    'PATCH'
+    'PATCH',
   )(Routes.guildMember);
 
   const getRoleConnectionMetadata = buildHandler<void, DAPI.RESTGetAPIApplicationRoleConnectionMetadataResult>('GET')(
-    Routes.applicationRoleConnectionMetadata.bind(null, options.applicationId)
+    Routes.applicationRoleConnectionMetadata.bind(null, options.applicationId),
   );
 
   const putRoleConnectionMetadata = buildHandler<
