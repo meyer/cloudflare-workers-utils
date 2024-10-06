@@ -1,11 +1,13 @@
 {
   "name": "@workers-utils/common",
-  "version": "0.0.0-alpha.0",
+  "version": "0.0.0",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "http-status-codes": "^2.3.0"
   },
