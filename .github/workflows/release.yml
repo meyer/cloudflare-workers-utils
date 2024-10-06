@@ -24,6 +24,9 @@ jobs:
           npm install
           npm set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
 
+      - run: |
+          npm run build
+
       - name: Create release PR or publish to npm
         id: changesets
         uses: changesets/action@v1
