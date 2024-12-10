@@ -1,7 +1,11 @@
 {
-  "include": [],
+  "include": ["${configDir}/src/**/*.ts"],
+  "exclude": ["${configDir}/src/**/*.test.ts"],
   "compilerOptions": {
     "baseUrl": ".",
+    "rootDir": "${configDir}/src",
+    "outDir": "${configDir}/dist",
+    "tsBuildInfoFile": "${configDir}/dist/build.tsbuildinfo",
     "composite": true,
     "declaration": true,
     "declarationMap": true,

@@ -29,7 +29,8 @@
         "useTemplate": "off"
       },
       "suspicious": {
-        "noExplicitAny": "warn"
+        "noExplicitAny": "warn",
+        "noEmptyInterface": "off"
       }
     }
   },

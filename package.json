@@ -13,7 +13,8 @@
     "@changesets/cli": "^2.27.9",
     "@manypkg/cli": "^0.21.4",
     "@manypkg/get-packages": "^2.2.2",
-    "@types/node": "^18",
+    "@types/node": "^22.10.1",
+    "jest": "^29.7.0",
     "vitest": "^2.1.8"
   },
   "scripts": {
