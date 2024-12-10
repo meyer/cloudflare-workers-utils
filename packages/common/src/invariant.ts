@@ -12,10 +12,10 @@ export function invariant<T extends Newable>(
 export function invariant(condition: any, message: string, ...args: any[]): asserts condition;
 export function invariant(condition: any, message: any, ...args: any[]): asserts condition {
   if (!condition) {
-    if (typeof message === 'string') {
-      throw new Error(utilFormat(message, ...args));
+    if (typeof message === 'function') {
+      throw new message(...args);
     }
-    throw new message(...args);
+    throw new Error(utilFormat(message, ...args));
   }
 }
 
