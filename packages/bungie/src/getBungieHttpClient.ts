@@ -22,6 +22,7 @@ export interface BungieHttpClientOptions {
   apiKey: string;
   apiOrigin: string;
   accessToken?: string;
+  cf?: RequestInitCfProperties;
 }
 
 export const getBungieHttpClient = (options: BungieHttpClientOptions) => {
@@ -49,6 +50,7 @@ export const getBungieHttpClient = (options: BungieHttpClientOptions) => {
       method: config.method,
       headers,
       body: config.body ? JSON.stringify(config.body) : undefined,
+      cf: copiedOptions.cf,
     });
 
     const jsonResponse = (await result.json()) as ServerResponse<unknown>;

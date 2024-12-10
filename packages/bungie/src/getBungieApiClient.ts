@@ -89,10 +89,21 @@ interface BungieApiClientOptions extends BungieHttpClientOptions {
 
 export const getBungieApiClient = (options: BungieApiClientOptions) => {
   const definitions = getThingFromObjectOrThrow(options, 'definitions');
+
   const bungieHttpClient = getBungieHttpClient(options);
 
+  const bungieHttpClientWithShortCache = getBungieHttpClient({
+    ...options,
+    cf: { cacheEverything: true, cacheTtl: 60 * 5 },
+  });
+
+  const bungieHttpClientWithLongCache = getBungieHttpClient({
+    ...options,
+    cf: { cacheEverything: true, cacheTtl: 60 * 60 * 12 },
+  });
+
   const getBungieNetUserById = async (id: string) => {
-    return await D2User.getBungieNetUserById(bungieHttpClient, { id });
+    return await D2User.getBungieNetUserById(bungieHttpClientWithLongCache, { id });
   };
 
   const getMembershipDataForCurrentUser = async () => {
@@ -110,7 +121,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
       }
     >
   > => {
-    return D2.getLinkedProfiles(bungieHttpClient, {
+    return D2.getLinkedProfiles(bungieHttpClientWithLongCache, {
       membershipId,
       membershipType,
       getAllMemberships,
@@ -157,7 +168,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
   };
 
   const getMembershipDataById = async (membershipType: D2.BungieMembershipType, membershipId: string) => {
-    return D2User.getMembershipDataById(bungieHttpClient, {
+    return D2User.getMembershipDataById(bungieHttpClientWithLongCache, {
       membershipId,
       membershipType,
     });
@@ -177,7 +188,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
 
   /** Get clan information */
   const getGroupsForMember = async (membershipId: string) => {
-    return D2GroupV2.getGroupsForMember(bungieHttpClient, {
+    return D2GroupV2.getGroupsForMember(bungieHttpClientWithShortCache, {
       filter: D2GroupV2.GroupsForMemberFilter.All,
       groupType: D2GroupV2.GroupType.Clan,
       membershipId,
@@ -201,7 +212,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
     destinyMembershipId: string,
     itemInstanceId: string,
   ) => {
-    return D2.getItem(bungieHttpClient, {
+    return D2.getItem(bungieHttpClientWithShortCache, {
       components,
       membershipType,
       destinyMembershipId,
@@ -232,7 +243,7 @@ export const getBungieApiClient = (options: BungieApiClientOptions) => {
   };
 
   const bungieGetVendor = (params: BungieGetVendorParams) =>
-    D2.getVendor(bungieHttpClient, {
+    D2.getVendor(bungieHttpClientWithLongCache, {
       ...params,
       components: [D2.DestinyComponentType.VendorCategories, D2.DestinyComponentType.VendorSales],
     });
