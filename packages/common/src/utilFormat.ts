@@ -1,7 +1,7 @@
 // Source: https://github.com/tmpfs/format-util/blob/0c989942c959b179eec294a4e725afd63e743f18/format.js
 // Copied here to avoid the need for commonjs polyfills
 
-export const utilFormat = (fmt: string, ...args: any[]) => {
+export const utilFormat = (fmt: string, ...args: any[]): string => {
   const re = /(%?)(%([ojds]))/g;
   let ret = fmt;
   if (args.length) {
@@ -39,5 +39,5 @@ export const utilFormat = (fmt: string, ...args: any[]) => {
   // update escaped %% values
   ret = ret.replace(/%{2,2}/g, '%');
 
-  return '' + fmt;
+  return '' + ret;
 };

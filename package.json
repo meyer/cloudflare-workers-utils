@@ -13,7 +13,8 @@
     "@changesets/cli": "^2.27.9",
     "@manypkg/cli": "^0.21.4",
     "@manypkg/get-packages": "^2.2.2",
-    "@types/node": "^18"
+    "@types/node": "^18",
+    "vitest": "^2.1.8"
   },
   "scripts": {
     "build": "npm run clean && tsc -b",
@@ -23,6 +24,7 @@
     "update-tsconfigs": "node ./scripts/updateTsconfigs.mjs",
     "release": "changeset publish",
     "release:canary": "changeset publish --no-git-tag --tag canary",
+    "test": "vitest",
     "version:canary": "changeset version --snapshot canary"
   }
 }
