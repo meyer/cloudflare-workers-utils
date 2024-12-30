@@ -5,27 +5,25 @@
   "author": "meyer",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "packages/*"
-  ],
   "dependencies": {
-    "@biomejs/biome": "^1.9.3",
-    "@changesets/cli": "^2.27.9",
+    "@biomejs/biome": "^1.9.4",
+    "@changesets/cli": "^2.27.11",
+    "@changesets/config": "^3.0.5",
     "@manypkg/cli": "^0.21.4",
     "@manypkg/get-packages": "^2.2.2",
     "@types/node": "^22.10.1",
-    "jest": "^29.7.0",
+    "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   },
   "scripts": {
-    "build": "npm run clean && tsc -b",
-    "clean": "npm run -ws clean",
+    "build": "pnpm -r clean && tsc -b",
     "format": "biome format --write .",
     "check": "biome check --write .",
     "update-tsconfigs": "node ./scripts/updateTsconfigs.mjs",
-    "release": "changeset publish",
-    "release:canary": "changeset publish --no-git-tag --tag canary",
+    "release": "pnpm publish -r --access public",
+    "release:canary": "pnpm publish -r  --access public --tag canary --no-git-checks",
     "test": "vitest",
     "version:canary": "changeset version --snapshot canary"
-  }
+  },
+  "packageManager": "pnpm@9.15.2+sha512.93e57b0126f0df74ce6bff29680394c0ba54ec47246b9cf321f0121d8d9bb03f750a705f24edc3c1180853afd7c2c3b94196d0a3d53d3e069d9e2793ef11f321"
 }

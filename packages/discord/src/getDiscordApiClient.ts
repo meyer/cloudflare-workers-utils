@@ -29,6 +29,17 @@ export class DiscordResponseError extends Error {
   }
 }
 
+// workaround for this error:
+//   The inferred type of 'getDiscordApiClient' cannot be named without a reference
+//   to 'packages/discord/node_modules/discord-api-types/utils/internals.js'.
+//   This is likely not portable. A type annotation is necessary.
+//
+// I think it's because discord-api-types does not directly export `DistributiveOmit`,
+// though the path starting with "packages/discord" seems awfully sus.
+type PostChannelsBody = {
+  [K in keyof DAPI.RESTPostAPIGuildChannelJSONBody]: DAPI.RESTPostAPIGuildChannelJSONBody[K];
+};
+
 export const getDiscordApiClient = (options: DiscordRestOptions) => {
   const headers = {
     Authorization: `Bot ${options.botToken}`,
@@ -148,9 +159,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
 
   const getChannel = buildHandler<void, DAPI.RESTGetAPIChannelResult>('GET')(Routes.channel);
   const getChannels = buildHandler<void, DAPI.RESTGetAPIGuildChannelsResult>('GET')(Routes.guildChannels);
-  const postChannels = buildHandler<DAPI.RESTPostAPIGuildChannelJSONBody, DAPI.RESTPostAPIGuildChannelResult>('POST')(
-    Routes.guildChannels,
-  );
+  const postChannels = buildHandler<PostChannelsBody, DAPI.RESTPostAPIGuildChannelResult>('POST')(Routes.guildChannels);
 
   const getChannelWebhooks = buildHandler<void, DAPI.RESTGetAPIChannelWebhooksResult>('GET')(Routes.channelWebhooks);
   const postChannelWebhooks = buildHandler<

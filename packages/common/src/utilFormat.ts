@@ -8,11 +8,6 @@ export const utilFormat = (fmt: string, ...args: any[]): string => {
     ret = ret.replace(re, (match, escaped, ptn, flag) => {
       let arg = args.shift();
       switch (flag) {
-        case 'o':
-          if (Array.isArray(arg)) {
-            arg = JSON.stringify(arg);
-          }
-          break;
         case 's':
           arg = '' + arg;
           break;
@@ -20,6 +15,7 @@ export const utilFormat = (fmt: string, ...args: any[]): string => {
           arg = Number(arg);
           break;
         case 'j':
+        case 'o':
           arg = JSON.stringify(arg);
           break;
       }
