@@ -5,25 +5,27 @@
   "author": "meyer",
   "private": true,
   "type": "module",
-  "dependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@changesets/cli": "^2.27.11",
-    "@changesets/config": "^3.0.5",
-    "@manypkg/cli": "^0.21.4",
-    "@manypkg/get-packages": "^2.2.2",
-    "@types/node": "^22.10.1",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
-  },
   "scripts": {
-    "build": "pnpm -r clean && tsc -b",
+    "build": "pnpm -r clean && tsc -b --diagnostics",
     "format": "biome format --write .",
     "check": "biome check --write .",
+    "postinstall": "manypkg fix",
     "update-tsconfigs": "node ./scripts/updateTsconfigs.mjs",
     "release": "pnpm publish -r --access public",
     "release:canary": "pnpm publish -r  --access public --tag canary --no-git-checks",
     "test": "vitest",
     "version:canary": "changeset version --snapshot canary"
   },
-  "packageManager": "pnpm@9.15.2+sha512.93e57b0126f0df74ce6bff29680394c0ba54ec47246b9cf321f0121d8d9bb03f750a705f24edc3c1180853afd7c2c3b94196d0a3d53d3e069d9e2793ef11f321"
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.2",
+    "@changesets/cli": "^2.29.6",
+    "@changesets/config": "^3.1.1",
+    "@cloudflare/workers-types": "^4.20250823.0",
+    "@manypkg/cli": "^0.25.0",
+    "@manypkg/get-packages": "^3.1.0",
+    "@types/node": "^22.10.1",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  },
+  "packageManager": "pnpm@10.15.0"
 }

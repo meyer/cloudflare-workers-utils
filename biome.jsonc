@@ -7,15 +7,24 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": []
+    "includes": ["**"]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "ignore": ["**/tsconfig.json", "**/tsconfig.*.json", "**/package.json"]
+    "includes": [
+      "**",
+      "!**/tsconfig.json",
+      "!**/tsconfig.*.json",
+      "!**/package.json"
+    ]
   },
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "linter": {
     "enabled": true,
@@ -29,7 +38,7 @@
         "useTemplate": "off"
       },
       "suspicious": {
-        "noExplicitAny": "warn",
+        "noExplicitAny": "off",
         "noEmptyInterface": "off"
       }
     }

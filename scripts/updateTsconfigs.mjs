@@ -25,7 +25,6 @@ for (const pkgObject of packages) {
       return { path: path.relative(pkgObject.dir, depPath) };
     })
     .filter(Boolean);
-  tsconfigContent.compilerOptions.tsBuildInfoFile = 'dist/build.tsbuildinfo';
   tsconfigContent.references = references.length === 0 ? undefined : references;
   await fs.writeFile(tsconfigPath, JSON.stringify(tsconfigContent, null, 2) + '\n');
 }

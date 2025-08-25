@@ -10,11 +10,7 @@
   ],
   "dependencies": {
     "@workers-utils/common": "workspace:*",
-    "discord-api-types": "^0.37.114"
-  },
-  "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241224.0",
-    "typescript": "^5.7.2"
+    "discord-api-types": "^0.38.21"
   },
   "scripts": {
     "clean": "rm -rf dist"

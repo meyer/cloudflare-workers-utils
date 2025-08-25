@@ -4,20 +4,22 @@ import { utilFormat } from './utilFormat.js';
 
 export class RedirectError extends Error {
   constructor(
-    public message: string,
+    public statusText: string,
     public redirectTo: string,
     public isPermanent = false,
   ) {
-    super(message);
+    super(statusText);
   }
 }
 
 export class HttpError extends Error {
   constructor(
-    public errorCode: StatusCodes,
-    public message: string,
+    public status: StatusCodes,
+    public statusText: string,
+    public responseText: string,
+    public failedRequestUrl?: string,
   ) {
-    super(`Error ${errorCode}: ${message}`);
+    super(`Error ${status}: ${statusText}`);
   }
 }
 

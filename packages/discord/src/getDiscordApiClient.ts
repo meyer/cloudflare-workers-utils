@@ -1,3 +1,4 @@
+import { invariant } from '@workers-utils/common';
 import type * as DAPI from 'discord-api-types/v10';
 import { RouteBases, Routes } from 'discord-api-types/v10';
 
@@ -158,6 +159,20 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
   );
 
   const getChannel = buildHandler<void, DAPI.RESTGetAPIChannelResult>('GET')(Routes.channel);
+  const getChannelByType = async <T extends DAPI.ChannelType>(
+    channelType: T,
+    channelId: string,
+  ): Promise<Extract<DAPI.RESTGetAPIChannelResult, { type: T }>> => {
+    const channel = await getChannel([channelId]);
+    invariant(
+      channel.type === channelType,
+      'Channel %s is not of type %s (received: %s)',
+      channel.name,
+      channelType,
+      channel.type,
+    );
+    return channel as any;
+  };
   const getChannels = buildHandler<void, DAPI.RESTGetAPIGuildChannelsResult>('GET')(Routes.guildChannels);
   const postChannels = buildHandler<PostChannelsBody, DAPI.RESTPostAPIGuildChannelResult>('POST')(Routes.guildChannels);
 
@@ -202,6 +217,7 @@ export const getDiscordApiClient = (options: DiscordRestOptions) => {
     deleteChannelMessage,
     deleteThreadMember,
     getChannel,
+    getChannelByType,
     getChannels,
     getChannelWebhooks,
     getGuild,

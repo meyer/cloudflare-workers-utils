@@ -1,3 +1,4 @@
+import { HttpError } from '@workers-utils/common';
 import type { HttpClientConfig, ServerResponse } from 'bungie-api-ts/destiny2';
 import { PlatformErrorCodes } from 'bungie-api-ts/destiny2';
 
@@ -65,7 +66,7 @@ export const getBungieHttpClient = (options: BungieHttpClientOptions) => {
     }
 
     if (result.status < 200 || result.status > 299) {
-      throw new Error(result.status + ' ' + result.statusText + ': ' + JSON.stringify(jsonResponse));
+      throw new HttpError(result.status, result.statusText, JSON.stringify(jsonResponse), url.toString());
     }
 
     return jsonResponse;

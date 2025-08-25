@@ -1,5 +1,5 @@
-import { utilFormat } from './utilFormat.js';
 import { describe, expect, test } from 'vitest';
+import { utilFormat } from './utilFormat.js';
 
 describe('utilFormat', () => {
   test('works', () => {

@@ -143,9 +143,13 @@ const runCsGraphQlQuery = async (
   return await result.json();
 };
 
-export const getLatestArticlesFromContentStack = async (settings: ContentStackSettings) => {
+export const getLatestArticlesFromContentStack = async (
+  settings: ContentStackSettings,
+  /** Day cutoff */
+  dateOffset = 7,
+) => {
   const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - dateOffset);
 
   const articlesResponse = await runCsGraphQlQuery(
     settings,

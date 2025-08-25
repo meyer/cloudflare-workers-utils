@@ -5,7 +5,7 @@ export const utilFormat = (fmt: string, ...args: any[]): string => {
   const re = /(%?)(%([ojds]))/g;
   let ret = fmt;
   if (args.length) {
-    ret = ret.replace(re, (match, escaped, ptn, flag) => {
+    ret = ret.replace(re, (match, escaped, _ptn, flag) => {
       let arg = args.shift();
       switch (flag) {
         case 's':

@@ -64,7 +64,7 @@ export const getBungieOauthToken = async (
 
   try {
     return JSON.parse(responseText);
-  } catch (error) {
+  } catch {
     throw new Error('Could not parse response text to JSON: `' + responseText + '`');
   }
 };
@@ -101,7 +101,7 @@ export const refreshBungieOauthToken = async (
 
   try {
     return JSON.parse(responseText);
-  } catch (error) {
+  } catch {
     throw new Error('Could not parse response text to JSON: `' + responseText + '`');
   }
 };
