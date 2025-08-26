@@ -1,5 +1,13 @@
 # @workers-utils/discord
 
+## 0.0.2
+
+### Patch Changes
+
+- 454d9d7: Update dependencies
+- Updated dependencies [454d9d7]
+  - @workers-utils/common@0.0.2
+
 ## 0.0.1
 
 ### Patch Changes
