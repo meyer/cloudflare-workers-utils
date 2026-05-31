@@ -2,6 +2,7 @@
 
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+
 import { getPackages } from '@manypkg/get-packages';
 
 const { packages, rootPackage } = await getPackages(process.cwd());

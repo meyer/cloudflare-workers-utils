@@ -7,8 +7,9 @@
   "type": "module",
   "scripts": {
     "build": "pnpm -r clean && tsc -b --diagnostics",
-    "format": "biome format --write .",
-    "check": "biome check --write .",
+    "format": "oxfmt --write .",
+    "lint": "oxlint",
+    "check": "oxfmt --write . && oxlint --fix",
     "postinstall": "manypkg fix",
     "update-tsconfigs": "node ./scripts/updateTsconfigs.mjs",
     "release": "pnpm publish -r --access public",
@@ -17,15 +18,17 @@
     "version:canary": "changeset version --snapshot canary"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
-    "@changesets/cli": "^2.29.6",
-    "@changesets/config": "^3.1.1",
-    "@cloudflare/workers-types": "^4.20250823.0",
-    "@manypkg/cli": "^0.25.0",
+    "@changesets/cli": "^2.31.0",
+    "@changesets/config": "^3.1.4",
+    "@cloudflare/workers-types": "^4.20260531.1",
+    "@manypkg/cli": "^0.25.1",
     "@manypkg/get-packages": "^3.1.0",
-    "@types/node": "^22.10.1",
-    "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "@types/node": "^24.12.4",
+    "oxfmt": "^0.52.0",
+    "oxlint": "^1.67.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.14",
+    "vitest": "^4.1.7"
   },
   "packageManager": "pnpm@10.15.0"
 }

@@ -10,7 +10,7 @@
   ],
   "dependencies": {
     "@workers-utils/common": "workspace:*",
-    "discord-api-types": "^0.38.21"
+    "discord-api-types": "^0.38.48"
   },
   "scripts": {
     "clean": "rm -rf dist"

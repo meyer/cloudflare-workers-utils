@@ -6,7 +6,6 @@
     "${configDir}/src/**/*.test.ts"
   ],
   "compilerOptions": {
-    "baseUrl": ".",
     "rootDir": "${configDir}/src",
     "outDir": "${configDir}/dist",
     "tsBuildInfoFile": "${configDir}/dist/build.tsbuildinfo",
@@ -28,13 +27,13 @@
     ],
     "paths": {
       "@workers-utils/bungie": [
-        "packages/bungie"
+        "./packages/bungie"
       ],
       "@workers-utils/common": [
-        "packages/common"
+        "./packages/common"
       ],
       "@workers-utils/discord": [
-        "packages/discord"
+        "./packages/discord"
       ]
     }
   }

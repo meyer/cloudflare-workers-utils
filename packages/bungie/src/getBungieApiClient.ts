@@ -66,8 +66,10 @@ export enum CollectiblePresentationNodeHash {
   CombatStyleArmorMods = 123185593,
 }
 
-interface BungieGetCollectibleNodeDetailsParams
-  extends Omit<D2.GetCollectibleNodeDetailsParams, 'collectiblePresentationNodeHash'> {
+interface BungieGetCollectibleNodeDetailsParams extends Omit<
+  D2.GetCollectibleNodeDetailsParams,
+  'collectiblePresentationNodeHash'
+> {
   collectiblePresentationNodeHash: CollectiblePresentationNodeHash;
 }
 
