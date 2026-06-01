@@ -8,6 +8,15 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meyer/cloudflare-workers-utils.git",
+    "directory": "packages/bungie"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "dependencies": {
     "@workers-utils/common": "workspace:*",
     "bungie-api-ts": "^5.10.0",

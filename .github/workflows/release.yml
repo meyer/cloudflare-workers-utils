@@ -5,6 +5,15 @@ on:
     branches:
       - main
 
+# Publishing uses npm trusted publishing (OIDC) instead of a long-lived token.
+# `id-token: write` lets the job mint the OIDC token npm exchanges for short-lived
+# credentials and provenance attestations. contents/pull-requests are for the
+# changesets release PR.
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
 jobs:
   canary:
     name: Create and publish a new release
@@ -24,7 +33,6 @@ jobs:
 
       - run: pnpm install
       - run: pnpm build
-      - run: pnpm config set //registry.npmjs.org/:_authToken ${{ secrets.NPM_TOKEN }}
 
       - name: Create release PR or publish to npm
         id: changesets
@@ -35,7 +43,6 @@ jobs:
           publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publishing canary release
         if: steps.changesets.outputs.published != 'true'
@@ -45,4 +52,3 @@ jobs:
           pnpm release:canary
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -8,6 +8,15 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meyer/cloudflare-workers-utils.git",
+    "directory": "packages/discord"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "dependencies": {
     "@workers-utils/common": "workspace:*",
     "discord-api-types": "^0.38.48"
