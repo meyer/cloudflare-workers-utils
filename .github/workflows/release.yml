@@ -44,8 +44,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # When changesets are pending, the action only opens/updates the "Bump
+      # versions" PR (no real publish) — that's the non-publish push where we
+      # want a canary. Once that PR merges there are no changesets left, the
+      # action publishes the real versions, and this step is skipped.
+      # (Don't gate on `outputs.published`: the action can't detect a `pnpm
+      # publish` and always reports it false, which fired canary after a real
+      # release and 403'd trying to republish the same version.)
       - name: Publishing canary release
-        if: steps.changesets.outputs.published != 'true'
+        if: steps.changesets.outputs.hasChangesets == 'true'
         run: |
           git checkout main
           pnpm version:canary
