@@ -1,5 +1,11 @@
 # @workers-utils/discord
 
+## 0.0.3
+
+### Patch Changes
+
+- 00ea73f: Update runtime dependencies: bump `discord-api-types`, `bungie-api-ts`, and `zod` to latest.
+
 ## 0.0.2
 
 ### Patch Changes
