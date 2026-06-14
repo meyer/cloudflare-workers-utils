@@ -16,3 +16,8 @@ updates:
     # Keep at most one open PR: while it's unmerged Dependabot rebases that same
     # PR instead of opening a new one.
     open-pull-requests-limit: 1
+    # Stay on the current Node LTS: take minor/patch @types/node updates within
+    # the major, but never bump the major (moving LTS lines is a manual step).
+    ignore:
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
