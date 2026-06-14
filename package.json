@@ -20,6 +20,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
     "@changesets/config": "^3.1.4",
+    "@changesets/git": "^3.0.4",
     "@cloudflare/workers-types": "^4.20260531.1",
     "@manypkg/cli": "^0.25.1",
     "@manypkg/get-packages": "^3.1.0",

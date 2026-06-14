@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm' # also covers pnpm (reads pnpm-lock.yaml / pnpm-workspace.yaml)
+    # Root manifest plus every workspace package. `directories` (plural) is
+    # required for globbing — `directory: "/"` alone would skip packages/*.
+    directories:
+      - '/'
+      - '/packages/*'
+    schedule:
+      interval: 'weekly'
+    # Bundle every update (root + all packages) into a single PR.
+    groups:
+      all-dependencies:
+        patterns:
+          - '*'
+    # Keep at most one open PR: while it's unmerged Dependabot rebases that same
+    # PR instead of opening a new one.
+    open-pull-requests-limit: 1

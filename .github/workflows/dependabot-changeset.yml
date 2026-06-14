@@ -1,0 +1,52 @@
+name: Dependabot changeset
+
+# Adds a changeset to Dependabot PRs so dependency bumps to published packages
+# get a real release when merged. Self-healing: if a Dependabot rebase drops the
+# changeset commit, the next `synchronize` re-runs this and re-adds it. Our own
+# GITHUB_TOKEN push does not re-trigger workflows, so there is no loop.
+on: pull_request
+
+# Dependabot-triggered runs start read-only; elevate so we can push the changeset.
+permissions:
+  contents: write
+
+jobs:
+  changeset:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      # Make the base branch available so changesets can diff HEAD against it.
+      - run: git fetch origin ${{ github.base_ref }}
+
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: 'pnpm'
+
+      # --ignore-scripts: we only need node_modules for @changesets/git; skip
+      # postinstall (manypkg fix) so it can't dirty the tree.
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Generate changeset
+        env:
+          BASE_REF: origin/${{ github.base_ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: node .github/scripts/dependabot-changeset.mjs
+
+      - name: Commit changeset
+        run: |
+          if [ -n "$(git status --porcelain .changeset)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .changeset
+            git commit -m "Add changeset for dependency updates"
+            git push
+          else
+            echo "No changeset changes to commit."
+          fi
