@@ -20,7 +20,7 @@
   "dependencies": {
     "@workers-utils/common": "workspace:*",
     "bungie-api-ts": "^5.10.0",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   },
   "scripts": {
     "clean": "rm -rf dist"

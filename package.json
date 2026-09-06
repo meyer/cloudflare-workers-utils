@@ -18,18 +18,18 @@
     "version:canary": "changeset version --snapshot canary"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.0",
-    "@changesets/config": "^3.1.4",
-    "@changesets/git": "^3.0.4",
-    "@cloudflare/workers-types": "^4.20260531.1",
+    "@changesets/cli": "^3.0.1",
+    "@changesets/config": "^4.0.0",
+    "@changesets/git": "^4.0.0",
+    "@cloudflare/workers-types": "^5.20260902.1",
     "@manypkg/cli": "^0.25.1",
     "@manypkg/get-packages": "^3.1.0",
-    "@types/node": "^24.12.4",
-    "oxfmt": "^0.52.0",
-    "oxlint": "^1.67.0",
-    "typescript": "^6.0.3",
-    "vite": "^8.0.14",
-    "vitest": "^4.1.7"
+    "@types/node": "^24.13.3",
+    "oxfmt": "^0.66.0",
+    "oxlint": "^1.81.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   },
   "packageManager": "pnpm@10.15.0"
 }
